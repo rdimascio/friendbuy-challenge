@@ -12,7 +12,7 @@ npm i
 npm run build
 ```
 
-To view the completed challenge, open `index.html`.
+To view the completed challenge, you can open `index.html` locally, or [check it out on Netlify](https://sleepy-golick-73fdd0.netlify.app).
 
 ### Run tests:
 
