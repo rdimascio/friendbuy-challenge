@@ -14,6 +14,28 @@
         display: flex;
     }
 
+    &.gated {
+        .modal-image {
+            display: block;
+        }
+
+        .modal-content {
+            top: 175px;
+        }
+
+        @media (min-width: 900px) {
+            .modal-content {
+                top: 0;
+            }
+        }
+    }
+
+    &.thanks {
+        .modal-image {
+            background-image: url('https://friendbuy-challenge.s3-us-west-1.amazonaws.com/overlay_thanks.png');
+        }
+    }
+
     &-wrapper {
         position: relative;
         height: 100%;
@@ -30,7 +52,7 @@
 
         @media (min-width: 900px) {
             max-width: 880px;
-            max-height: 600px;
+            max-height: 640px;
             flex-direction: row;
         }
     }
@@ -44,6 +66,7 @@
 
     &-image {
         left: 0;
+        display: none;
         height: 175px;
         width: 100%;
         border-radius: 6px 6px 0 0;
@@ -54,35 +77,222 @@
         @media (min-width: 900px) {
             height: 100%;
             width: 400px;
+            display: block;
             border-radius: 0 6px 6px 0;
-            background-size: contain;
+            background-size: cover;
             transform: scaleX(-1);
             background-image: url('https://friendbuy-challenge.s3-us-west-1.amazonaws.com/overlay.png');
         }
     }
 
     &-content {
-        padding: 40px 0;
+        padding: 0 0 40px;
         right: 0;
         width: 100%;
 
         @media (min-width: 900px) {
             width: 480px;
         }
+
+        &__tab {
+            text-transform: uppercase;
+            font-size: 14px;
+            letter-spacing: .5px;
+            padding: 12px 12px 20px;
+
+            @media (min-width: 900px) {
+                font-size: 16px;
+                padding: 20px;
+            }
+
+            &.active {
+                a {
+                    color: black;
+                    border-bottom: 2px solid black;
+                }
+            }
+
+            a {
+                color: gray;
+                text-decoration: none;
+                padding-bottom: 4px;
+            }
+
+            &-wrapper {
+                list-style: none;
+                margin-block-start: 0;
+                margin-block-end: 0;
+                padding-inline-start: 0;
+            }
+        }
     }
 
     &-root {
         display: flex;
+        flex-direction: column;
+        text-align: center;
         height: 100%;
         justify-content: center;
         align-items: center;
+        padding: 0 20px;
+
+        @media (min-width: 900px) {
+            padding: 0 40px;
+        }
+
+        .email-gate-message.invalid {
+            color: red;
+        }
+
+        button:not([data-clipboard-text]) {
+            width: 100%;
+            border: 0;
+            border-radius: 2px;
+            letter-spacing: 1px;
+            padding: 10px;
+            text-transform: uppercase;
+            color: #fff;
+            margin-top: 10px;
+            background-color: #77cce2;
+            margin: 1.5em 0;
+            outline: none;
+        }
+
+        form {
+            margin-block-end: 0;
+
+            input,
+            textarea {
+                padding: 8px 12px;
+                background-color: transparent;
+                border: 1px solid lightgray;
+            }
+
+            &#email-gate {
+                input.invalid {
+                    border: 1px solid red;
+                }
+            }
+
+            &#email {
+                input,
+                textarea {
+                    margin-bottom: 2px;
+
+                    @media (min-width: 900px) {
+                        margin-bottom: 5px;
+                    }
+                }
+
+                label {
+                    margin-left: 5px;
+                }
+
+                .input-icon {
+                    position: relative;
+
+                    input {
+                        padding: 8px 24px 8px 12px;
+                    }
+
+                    svg {
+                        position: absolute;
+                        right: 10;
+                        top: 10;
+                        stroke: gray;
+                    }
+                }
+            }
+
+            &#facebook {
+                textarea,
+                .share-preview p span {
+                    display: none;
+                }
+
+                .share-preview {
+                    flex-direction: column;
+
+                    .featured-image {
+                        width: 80%;
+                        height: 100px;
+                        background-repeat: no-repeat;
+                        background-size: cover;
+                    }
+
+                    p {
+                        text-align: center;
+                        margin-block-start: 0;
+                    }
+                }
+
+                button {
+                    svg {
+                        margin-right: 10px;
+                    }
+                }
+
+                @media (min-width: 900px) {
+                    textarea,
+                    .share-preview p span {
+                        display: block;        
+                    }
+
+                    textarea {
+                        margin-bottom: 10px;
+                    }
+
+                    .share-preview {
+                        flex-direction: row;
+
+                        .featured-image {
+                            min-width: 150px;
+                        }
+
+                        p {
+                            text-align: left;
+                            margin-left: 10px;
+                        }
+                    }
+                }
+            }
+        }
     }
 
     &-close {
         position: absolute;
-        top: 0;
-        right: 0;
-        padding: 10px;
+        top: 5px;
+        right: 4px;
+        padding: 8px 10px;
+        z-index: 9;
+        background: rgba(255, 255, 255, 0.5);
+        border-radius: 50%;
+    }
+
+    &-share {
+        flex-direction: column;
+
+        button {
+            margin-top: 6px;
+        }
+
+        @media (min-width: 900px) {
+            flex-direction: row;
+            align-items: center;
+            margin-top: 0;
+        }
+
+        button {
+            height: 35px;
+            min-width: 185px;
+            padding: 15px;
+            background: transparent;
+            border: 1px solid lightgray;
+
+            @media (min-width: 900px) {
+                margin-left: 10px;
+            }
+        }
     }
 
     &-footer {

@@ -1,1 +1,12 @@
-@import 'components/components';
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans&display=swap');
+
+body {
+    font-family: 'Work Sans', sans-serif;
+}
+
+p {
+    font-size: 14px;
+}
+
+@import 'utils';
+@import 'components';

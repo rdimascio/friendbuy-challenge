@@ -34,9 +34,7 @@ module.exports = {
 	entry: {
 		main: [
 			'idempotent-babel-polyfill',
-			// resolveApp('src/js/polyfills/custom-event.js'),
-			// resolveApp('src/js/polyfills/prepend.js'),
-			// resolveApp('src/js/polyfills/for-each.js'),
+			resolveApp('src/js/polyfill/for-each.js'),
 			PATHS.appMainJs,
 		],
 	},
