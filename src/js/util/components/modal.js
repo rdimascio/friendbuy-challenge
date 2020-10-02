@@ -125,9 +125,6 @@ export default (function () {
 
 		return createElement('div', {
 			className: 'modal-share flex text-left',
-			attrs: {
-				style: 'font-size: 14px',
-			},
 			children: ['And share your link wherever:', SHARE],
 		});
 	};
