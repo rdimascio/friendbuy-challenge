@@ -15,7 +15,18 @@ export default (function () {
 		empty: 'Enter your email to start sharing with friends:',
 	};
 
+	/**
+	 * Modal accessor.
+	 * 
+	 * @returns {HTMLElement}
+	 */
 	const MODAL = () => document.querySelector('.modal');
+
+	/**
+	 * Root accessor.
+	 * 
+	 * @returns {HTMLElement}
+	 */
 	const ROOT = () => MODAL().querySelector('.modal-root');
 
 	/**
@@ -93,6 +104,11 @@ export default (function () {
 		});
 	};
 
+	/**
+	 * Build the share component.
+	 * 
+	 * @returns {HTMLElement}
+	 */
 	const buildShare = () => {
 		const SHARE = createElement('button', {
 			className: 'flex align-center justify-between',
@@ -129,6 +145,12 @@ export default (function () {
 		});
 	};
 
+	/**
+	 * Click event handler for tabs.
+	 * 
+	 * @param {Object} event
+	 * @returns {void}
+	 */
 	const handleTabClick = (event) => {
 		event.preventDefault();
 		const target = event.target.getAttribute('data-target');
