@@ -7,13 +7,10 @@ import feather from 'feather-icons';
 export default (function () {
 	const STATE = {
 		email: null,
+		error: false,
 	};
 	const TABS = ['email', 'messenger', 'facebook'];
-	const GATE_MESSAGE = {
-		success: 'Success!',
-		error: 'Please enter a valid email address:',
-		empty: 'Enter your email to start sharing with friends:',
-	};
+	const GATE_ERROR_MESSAGE = 'Please enter a valid email address';
 
 	/**
 	 * Modal accessor.
@@ -187,17 +184,18 @@ export default (function () {
 	/**
 	 * Update the Email Gate status.
 	 *
-	 * @param {string} status - The form status. Can be either success or error.
+	 * @param {boolean} error - The form state. True is error.
 	 * @param {HTMLElement} el - The input element to invalidate.
 	 * @returns {void}
 	 */
-	const updateEmailGateMessage = (status, el) => {
-		const action = status == 'success' ? 'remove' : 'add';
-		const messageEl = ROOT().querySelector('.email-gate-message');
+	const updateEmailGateErrorMessage = (error, el) => {
+		const action = error ? 'add' : 'remove';
+		const messageEl = ROOT().querySelector('.modal-error');
 
 		el.classList[action]('invalid');
-		messageEl.classList[action]('invalid');
-		messageEl.textContent = GATE_MESSAGE[status];
+		messageEl.textContent = error
+			? GATE_ERROR_MESSAGE
+			: null;
 	};
 
 	/**
@@ -210,18 +208,39 @@ export default (function () {
 	 */
 	const handleEmailGateSubmit = (event) => {
 		event.preventDefault();
-		const emailInput = event.target.querySelector(
-			'input[name="email-address"]'
-		);
+		const input = event.target.elements.emailAddress;
+		const isValidEmail = validateEmail(input.value);
 
-		if (validateEmail(emailInput.value)) {
-			updateEmailGateMessage('success', emailInput);
-			STATE.email = emailInput.value;
-			MODAL().classList.remove('gated');
-			buildEmail();
-		} else {
-			updateEmailGateMessage('error', emailInput);
+		switch (Boolean(isValidEmail)) {
+			case true:
+				STATE.email = input.value;
+				STATE.error = false;
+				MODAL().classList.remove('gated');
+				buildEmail();
+				break;
+			case false:
+				STATE.error = true;
+				updateEmailGateErrorMessage(STATE.error, input);
+				break;
+			default:
+				return;
 		}
+	};
+
+	/**
+	 * Event handler for the Email Gate form submit.
+	 *
+	 * If the email is valid, we'll save it to `STATE.email` so that
+	 * we can prepopulate the form in the Email modal view.
+	 *
+	 * @param {Object} event
+	 */
+	const handleEmailGateChange = (event) => {
+		const {value} = event.target;
+		const isValidEmail = validateEmail(value);
+
+		if (STATE.error)
+			updateEmailGateErrorMessage(!Boolean(isValidEmail), event.target);
 	};
 
 	/**
@@ -231,19 +250,28 @@ export default (function () {
 	 */
 	const buildGate = () => {
 		const WRAPPER = setup();
+		const INPUT = createElement('input', {
+			attrs: {
+				id: 'emailAddress',
+				type: 'text',
+				name: 'emailAddress',
+				placeholder: 'Email address...',
+			},
+		});
 		const FORM = createElement('form', {
 			className: 'flex column full-width',
 			attrs: {
 				id: 'email-gate',
 			},
 			children: [
-				createElement('input', {
+				INPUT,
+				createElement('div', {
+					className: 'modal-error',
 					attrs: {
-						id: 'email-address',
-						type: 'text',
-						name: 'email-address',
-						placeholder: 'Email address...',
+						role: 'alert',
+						style: 'color: red'
 					},
+					children: '',
 				}),
 				createElement('button', {
 					children: 'Start Sharing',
@@ -254,12 +282,13 @@ export default (function () {
 			],
 		});
 
+		INPUT.addEventListener('input', handleEmailGateChange);
 		FORM.addEventListener('submit', handleEmailGateSubmit);
 		WRAPPER.append(buildTitle());
 		WRAPPER.append(
 			createElement('p', {
 				className: 'email-gate-message',
-				children: GATE_MESSAGE.empty,
+				children: 'Enter your email to start sharing with friends:',
 			})
 		);
 		WRAPPER.append(FORM);
@@ -498,6 +527,6 @@ export default (function () {
 		buildGate,
 		buildEmail,
 		buildFacebook,
-		GATE_MESSAGE,
+		GATE_ERROR_MESSAGE,
 	};
 })();

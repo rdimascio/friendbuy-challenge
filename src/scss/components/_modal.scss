@@ -263,6 +263,12 @@
         }
     }
 
+    &-error {
+        color: red;
+        font-size: 12px;
+        text-align: left;
+    }
+
     &-close {
         position: absolute;
         top: 5px;

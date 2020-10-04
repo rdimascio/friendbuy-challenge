@@ -26,15 +26,15 @@ describe('user interactions', () => {
 
 	describe('email gate', () => {
 		const FORM = ROOT.querySelector('#email-gate');
-		const INPUT = FORM.querySelector('#email-address');
-		const MESSAGE = ROOT.querySelector('.email-gate-message');
+		const INPUT = FORM.elements.emailAddress;
+		const MESSAGE = ROOT.querySelector('.modal-error');
 
 		test('should show an error if an invalid email address is entered', () => {
-			INPUT.value = 'fail';
+			INPUT.value = 'this@will_fail.';
 			FORM.querySelector('button').click();
 
-			expect(MESSAGE.classList.contains('invalid')).toBe(true);
-			expect((MESSAGE.textContent = modal.GATE_MESSAGE.error));
+			expect(INPUT.classList.contains('invalid')).toBe(true);
+			expect((MESSAGE.textContent = modal.GATE_ERROR_MESSAGE));
 		});
 
 		test('should progress to the email message with a valid entry', () => {
